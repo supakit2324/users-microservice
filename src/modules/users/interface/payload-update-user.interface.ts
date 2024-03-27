@@ -1,4 +1,4 @@
-export interface payloadUpdateUserInterface {
+export interface PayloadUpdateUserInterface {
   firstname: string;
   lastname: string;
 }

@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { playloadCreateUserInterface } from './interface/payload-create-user.interface';
+import { PlayloadCreateUserInterface } from './interface/payload-create-user.interface';
 import { AuthService } from '../auth/auth.service';
 import { USER_CMD } from 'src/constants';
-import { loginterface } from '../auth/interface/login.interface';
+import { Loginterface } from '../auth/interface/login.interface';
 import { Users } from './users.schema';
-import { payloadUpdateUserInterface } from './interface/payload-update-user.interface';
+import { PayloadUpdateUserInterface } from './interface/payload-update-user.interface';
 import StatusUser from './enum/status-user.enum';
 import {
   PaginationInterface,
@@ -30,10 +30,10 @@ export class UsersMicroserviec {
     cmd: USER_CMD,
     method: 'login',
   })
-  async login(@Payload() payload: { email: string }): Promise<loginterface> {
+  async login(@Payload() payload: { email: string }): Promise<Loginterface> {
     const { email } = payload;
 
-    let jwtSign: loginterface;
+    let jwtSign: Loginterface;
     try {
       jwtSign = await this.authService.createTokens(email);
     } catch (e) {
@@ -74,7 +74,7 @@ export class UsersMicroserviec {
     method: 'register',
   })
   async register(
-    @Payload() payload: playloadCreateUserInterface,
+    @Payload() payload: PlayloadCreateUserInterface,
   ): Promise<void> {
     try {
       await this.usersService
@@ -186,7 +186,7 @@ export class UsersMicroserviec {
     method: 'updateUser',
   })
   async updateUser(
-    @Payload() payload: { userId: string; update: payloadUpdateUserInterface },
+    @Payload() payload: { userId: string; update: PayloadUpdateUserInterface },
   ): Promise<void> {
     const { userId, update } = payload;
     try {

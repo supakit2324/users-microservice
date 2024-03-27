@@ -1,4 +1,4 @@
-export interface payloadChangePasswordUserInterface {
+export interface PayloadChangePasswordUserInterface {
   password: string;
   confirmPassword: string;
 }

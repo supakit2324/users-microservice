@@ -1,4 +1,4 @@
-export interface playloadCreateUserInterface {
+export interface PlayloadCreateUserInterface {
   email: string;
   username: string;
   firstname: string;
