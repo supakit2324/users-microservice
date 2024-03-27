@@ -7,20 +7,16 @@ import {
 
 @Injectable()
 export class ThrottlerCustomGuard extends ThrottlerGuard {
-  async handleRequest(
-    context: ExecutionContext,
-    limit: number,
-    ttl: number,
-    throttler: ThrottlerOptions,
-  ): Promise<boolean> {
-    const { req } = this.getRequestResponse(context);
-    const ip = req?.headers['x-original-forwarded-for'];
-    const key = `${this.generateKey(context, ip, throttler.name)}:${req.originalUrl}`;
+  async handleRequest(context: ExecutionContext, limit: number, ttl: number, throttler: ThrottlerOptions): Promise<boolean> {
+    const client = context.switchToWs().getClient();
+    const ip = client._socket.remoteAddress;
+    const key = this.generateKey(context, ip, throttler.name);
     const { totalHits } = await this.storageService.increment(key, ttl);
-    if (totalHits >= limit) {
+
+    if (totalHits > limit) {
       throw new ThrottlerException();
     }
-    await this.storageService.increment(key, ttl);
+
     return true;
   }
 }
