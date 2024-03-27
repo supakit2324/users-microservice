@@ -13,7 +13,7 @@ dayjs.extend(require('dayjs/plugin/isToday'));
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get<ConfigService>(ConfigService);
-  const port = configService.get('PORT');
+  const port = configService.get('port');
   const provider = configService.get<string>('provider');
   const rmqUrl = configService.get('RMQ');
   const logger = new Logger();
