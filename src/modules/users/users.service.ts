@@ -34,7 +34,7 @@ export class UsersService {
     return this.usersModel.findOneAndDelete({ userId }).lean().exec();
   }
 
-  async findNewAllUser(): Promise<Users> {
+  async findNewAllUser(): Promise<Users[]> {
     const startOfWeek = dayjs().startOf('week');
     const endOfWeek = dayjs().endOf('week');
 

@@ -8,7 +8,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { PlayloadCreateUserInterface } from './interface/payload-create-user.interface';
 import { AuthService } from '../auth/auth.service';
 import { USER_CMD } from 'src/constants';
-import { Loginterface } from '../auth/interface/login.interface';
+import { LoginInterface } from '../auth/interface/login.interface';
 import { Users } from './users.schema';
 import { PayloadUpdateUserInterface } from './interface/payload-update-user.interface';
 import StatusUser from './enum/status-user.enum';
@@ -24,16 +24,16 @@ export class UsersMicroserviec {
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
-  ) {}
+  ) { }
 
   @MessagePattern({
     cmd: USER_CMD,
     method: 'login',
   })
-  async login(@Payload() payload: { email: string }): Promise<Loginterface> {
+  async login(@Payload() payload: { email: string }): Promise<LoginInterface> {
     const { email } = payload;
 
-    let jwtSign: Loginterface;
+    let jwtSign: LoginInterface;
     try {
       jwtSign = await this.authService.createTokens(email);
     } catch (e) {
@@ -45,9 +45,10 @@ export class UsersMicroserviec {
       });
     }
 
+
     const update = {
-      token: jwtSign[0],
-      refreshToken: jwtSign[1],
+      accessToken: jwtSign.accessToken,
+      refreshToken: jwtSign.refreshToken,
       latestLogin: Date.now(),
     };
 
@@ -64,8 +65,8 @@ export class UsersMicroserviec {
       });
     }
     return {
-      accessToken: jwtSign[0],
-      refreshToken: jwtSign[1],
+      accessToken: jwtSign.accessToken,
+      refreshToken: jwtSign.refreshToken,
     };
   }
 
@@ -224,7 +225,7 @@ export class UsersMicroserviec {
     cmd: USER_CMD,
     method: 'find-new-user',
   })
-  async findNewUser(): Promise<Users> {
+  async findNewUser(): Promise<Users[]> {
     try {
       return await this.usersService.findNewAllUser();
     } catch (e) {

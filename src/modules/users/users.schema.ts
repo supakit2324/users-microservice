@@ -62,14 +62,12 @@ export class Users {
 
   @Prop({
     enum: RoleUser,
-    required: true,
     default: RoleUser.MEMBER,
   })
   roles?: RoleUser;
 
   @Prop({
     enum: StatusUser,
-    required: true,
     default: StatusUser.ACTIVE,
   })
   status?: StatusUser;

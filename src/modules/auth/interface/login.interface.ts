@@ -1,4 +1,4 @@
-export interface Loginterface {
+export interface LoginInterface {
   accessToken: string;
 
   refreshToken: string;
