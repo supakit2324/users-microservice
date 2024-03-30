@@ -10,8 +10,6 @@ import { LoginInterface } from './interface/login.interface';
 
 @Injectable()
 export class AuthService {
-  private readonly logger = new Logger(AuthService.name);
-
   constructor(
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,

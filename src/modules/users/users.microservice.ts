@@ -210,7 +210,7 @@ export class UsersMicroserviec {
   })
   async deleteUser(@Payload() userId: string): Promise<void> {
     try {
-      await this.usersService.deleteOneByUserId(userId);
+      await this.usersService.getUserModel().deleteOne({userId}).exec()
     } catch (e) {
       this.logger.error(
         `catch on deleteUser: ${e?.message ?? JSON.stringify(e)}`,

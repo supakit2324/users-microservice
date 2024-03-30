@@ -15,20 +15,19 @@ async function bootstrap() {
   const configService = app.get<ConfigService>(ConfigService);
   const port = configService.get('port');
   const provider = configService.get<string>('provider');
-  const rmqUrl = configService.get('RMQ');
   const logger = new Logger();
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
       noAck: true,
-      urls: [rmqUrl],
+      urls: [process.env.rmq],
       queue: provider,
       queueOptions: {
         durable: false,
       },
     },
-  });
+  })
 
   app.startAllMicroservices();
   await app.listen(port, () => {
