@@ -29,5 +29,5 @@ export default (): any => ({
       w: 'majority',
     },
   },
-  rmq: process.env.RMQ || ''
+  rmq: process.env.RMQ || '',
 });
